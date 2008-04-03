@@ -36,7 +36,7 @@ module ActiveReload
         relative_date(times.first)
       else
         first = times.first; last = times.last; now = time_class.now
-        [first.strftime_ordinalized('%b %d')].tap do |arr|
+        returning [first.strftime_ordinalized('%b %d')] do |arr|
           arr << ", #{first.year}" unless first.year == last.year
           arr << ' - '
           arr << last.strftime('%b') << ' ' unless first.year == last.year && first.month == last.month

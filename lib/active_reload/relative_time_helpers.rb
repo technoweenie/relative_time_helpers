@@ -11,6 +11,7 @@ module ActiveReload
       :tomorrow         => 'tomorrow',
       :initial_format   => '%b %d',
       :last_week_format => '%A',
+      :time_format      => '%l:%M %p',
       :year_format      => ', %Y'
     }
 
@@ -18,7 +19,7 @@ module ActiveReload
       date  = time.to_date
       today = time_class.now.to_date
       if date == today
-        time_output[:today]
+        time.respond_to?(:min) ? time.strftime(time_output[:time_format]) : time_output[:today]
       elsif date == (today - 1)
         time_output[:yesterday]
       elsif date == (today + 1)

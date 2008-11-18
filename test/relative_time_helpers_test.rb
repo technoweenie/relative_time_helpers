@@ -8,6 +8,7 @@ class RelativeTimeHelpersTest < Test::Unit::TestCase
     @current_time_class = ActiveReload::RelativeTimeHelpers.time_class
     ActiveReload::RelativeTimeHelpers.time_class = Time
     Time.stubs(:now).returns(Time.utc(2007, 6, 1, 11))
+    Date.stubs(:now).returns(Date.new(2007, 6, 1))
   end
   
   def teardown
@@ -15,7 +16,11 @@ class RelativeTimeHelpersTest < Test::Unit::TestCase
   end
 
   def test_should_show_today
-    assert_equal 'today', relative_date(Time.now.utc)
+    assert_equal 'today', relative_date(Date.now)
+  end
+  
+  def test_should_show_time_today
+    assert_equal '11:00 AM', relative_date(Time.now.utc)
   end
 
   def test_should_show_yesterday

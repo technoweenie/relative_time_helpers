@@ -25,7 +25,7 @@ module ActiveReload
       else
         fmt  = time_output[:initial_format].dup
         fmt << time_output[:year_format] unless date.year == today.year
-        time.strftime_ordinalized(fmt)
+        time.strftime(fmt)
       end
     end
     
@@ -36,11 +36,11 @@ module ActiveReload
         relative_date(times.first)
       else
         first = times.first; last = times.last; now = time_class.now
-        returning [first.strftime_ordinalized('%b %d')] do |arr|
+        returning [first.strftime('%b %d')] do |arr|
           arr << ", #{first.year}" unless first.year == last.year
           arr << ' - '
           arr << last.strftime('%b') << ' ' unless first.year == last.year && first.month == last.month
-          arr << last.day.ordinalize
+          arr << last.day
           arr << ", #{last.year}" unless first.year == last.year && last.year == now.year
         end.to_s
       end
@@ -59,13 +59,13 @@ module ActiveReload
         first = times.first; last = times.last; now = time_class.now        
         [prettier_time(first)].tap do |arr|
           arr << ' '
-          arr << first.strftime_ordinalized('%b %d')
+          arr << first.strftime('%b %d')
           arr << ", #{first.year}" unless first.year == last.year
           arr << ' - '
           arr << prettier_time(last)
           arr << ' '
           arr << last.strftime('%b') << ' ' unless first.year == last.year && first.month == last.month
-          arr << last.day.ordinalize
+          arr << last.day
           arr << ", #{last.year}" unless first.year == last.year && last.year == now.year
         end.to_s
       end

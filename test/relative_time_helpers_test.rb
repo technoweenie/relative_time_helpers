@@ -34,6 +34,14 @@ class RelativeTimeHelpersTest < Test::Unit::TestCase
     assert_equal 'Nov 15', relative_date(Time.utc(2007, 11, 15))
   end
   
+  def test_should_show_past_weekday
+    assert_equal 'Wednesday', relative_date_in_past(2.days.ago.utc)
+  end
+  
+  def test_should_show_past_date
+    assert_equal 'May 25', relative_date_in_past(7.days.ago.utc)
+  end
+  
   def test_should_show_date_span_on_the_same_day
     assert_equal 'Nov 15', relative_date_span([Time.utc(2007, 11, 15), Time.utc(2007, 11, 15)])
   end

@@ -6,14 +6,15 @@ module ActiveReload
     
     self.time_class = Time
     self.time_output = {
-      :today          => 'today',
-      :yesterday      => 'yesterday',
-      :tomorrow       => 'tomorrow',
-      :initial_format => '%b %d',
-      :year_format    => ', %Y'
+      :today            => 'today',
+      :yesterday        => 'yesterday',
+      :tomorrow         => 'tomorrow',
+      :initial_format   => '%b %d',
+      :last_week_format => '%A',
+      :year_format      => ', %Y'
     }
 
-    def relative_date(time)
+    def relative_date(time, in_past = false)
       date  = time.to_date
       today = time_class.now.to_date
       if date == today
@@ -22,11 +23,18 @@ module ActiveReload
         time_output[:yesterday]
       elsif date == (today + 1)
         time_output[:tomorrow]
+      elsif in_past && (today-6..today-2).include?(date)
+        fmt = time_output[:last_week_format].dup
+        time.strftime(time_output[:last_week_format])
       else
         fmt  = time_output[:initial_format].dup
         fmt << time_output[:year_format] unless date.year == today.year
         time.strftime(fmt)
       end
+    end
+    
+    def relative_date_in_past(time)
+      relative_date(time,true)
     end
     
     def relative_date_span(times)
